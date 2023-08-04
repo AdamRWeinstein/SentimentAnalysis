@@ -56,8 +56,13 @@ The performance of the models is evaluated using the following metrics: accuracy
 ## Naive Bayes
 
 Best Parameters: {'alpha': 0.5}
+
 Best Cross-Validation Score: 0.8699999999999999
+
 Accuracy: 0.83052
+
 Precision: 0.8635923611722256
+
 Recall: 0.78504
+
 F1 Score: 0.8224447890038973
