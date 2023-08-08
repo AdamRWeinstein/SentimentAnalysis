@@ -21,17 +21,19 @@ The dataset consists of 50,000 movie reviews from the IMDb website, with 25,000 
 
 ## Preprocessing
 
-The preprocessing step involves several text cleaning and transformation tasks, including:
+The preprocessing step involves several text cleaning and transformation tasks to prepare the data for machine learning models. The steps include:
 
-- Removal of HTML tags.
-- Replacement of specific ratings with general labels (positive, neutral, negative).
-- Removal of any remaining numbers
-- Expansion of contractions.
-- Conversion to lowercase.
-- Lemmatization.
-- Removal of stop words.
-- Removal or replacement of punctuation.
-- Removal of excess whitespace.
+- **Removal of HTML tags**: Ensures that the model isn't influenced by any web markup.
+- **Rating Replacement**: Specific ratings are replaced with general labels (positive, neutral, negative) to provide a uniform representation.
+- **Number Removal**: Any standalone numbers that don't represent ratings are removed.
+- **Expansion of Contractions**: Expands contractions (e.g., "isn't" becomes "is not") for uniformity.
+- **Punctuation Handling**: Punctuation is either removed or replaced with spaces.
+- **Case Normalization**: Converts all text to lowercase to avoid duplication based on case differences.
+- **Lemmatization**: Words are reduced to their base or dictionary form (e.g. 'better' -> 'good')
+- **Stop Word Removal**: Common words that don't carry significant meaning are removed.
+- **Whitespace Handling**: Any excess white spaces are removed.
+
+Potential enhancements for preprocessing include refining the rating categorization strategy, such as omitting neutral placeholders for explicit ratings between 40-60% and categorizing them as either positive or negative. Another option is to discard neutral ratings before tokenization.
 
 ## Models
 
@@ -39,7 +41,13 @@ Each model is run through a method for hyperparameter tuning to identify the bes
 
 ### Naive Bayes
 
-The Naive Bayes model is a probabilistic classifier based on applying Bayes' theorem. It's a simple yet effective model for text classification tasks.
+The Naive Bayes model is a probabilistic classifier that applies Bayes' theorem with strong (naive) independence assumptions. Despite its simplicity, it's often effective for text classification tasks. Our approach involves:
+
+- **Vectorization**: The text is converted into a numeric form using the Bag of Words (BoW) technique.
+- **TF-IDF Transformation**: The BoW vectors are further transformed using Term Frequency - Inverse Document Frequency (TF-IDF) to weigh terms based on their significance.
+
+Potential enhancements involve utilizing the `ngram_range` parameter in `CountVectorizer` to capture multi-word contexts. For example, adjusting the `ngram_range` to (1, 2) allows the model to consider both single words and two-word phrases (e.g. ("I like words" with an ngram_range of (1, 2) would provide ["I", "like", "words", "I like", "like words"] rather than the current implementation with an ngram_range of (1, 1) providing ["I", "like", "words"]). This approach can help mitigate the model's assumption of token independence by incorporating local context directly into the tokenized data.
+
 
 ### Logistic Regression
 
@@ -53,7 +61,7 @@ LSTM (Long Short-Term Memory) networks are a type of recurrent neural network (R
 
 The performance of the models is evaluated using the following metrics: accuracy, precision, recall, and F1-score. The results indicate the strengths and weaknesses of each approach on the given dataset.
 
-## Naive Bayes
+### Naive Bayes
 
 Best Parameters: {'alpha': 0.5}
 
