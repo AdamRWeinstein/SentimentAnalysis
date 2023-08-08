@@ -46,7 +46,7 @@ The Naive Bayes model is a probabilistic classifier that applies Bayes' theorem 
 - **Vectorization**: The text is converted into a numeric form using the Bag of Words (BoW) technique.
 - **TF-IDF Transformation**: The BoW vectors are further transformed using Term Frequency - Inverse Document Frequency (TF-IDF) to weigh terms based on their significance.
 
-Potential enhancements involve utilizing the `ngram_range` parameter in `CountVectorizer` to capture multi-word contexts. For example, adjusting the `ngram_range` to (1, 2) allows the model to consider both single words and two-word phrases (e.g. ("I like words" with an ngram_range of (1, 2) would provide ["I", "like", "words", "I like", "like words"] rather than the current implementation with an ngram_range of (1, 1) providing ["I", "like", "words"]). This approach can help mitigate the model's assumption of token independence by incorporating local context directly into the tokenized data.
+Potential enhancements involve utilizing the `ngram_range` parameter in `CountVectorizer` to capture multi-word contexts. For example, adjusting the `ngram_range` to (1, 2) allows the model to consider both single words and two-word phrases (e.g. "I like words" with an ngram_range of (1, 2) would provide ["I", "like", "words", "I like", "like words"] rather than the current implementation with an ngram_range of (1, 1) providing ["I", "like", "words"]). This approach can help mitigate the model's assumption of token independence by incorporating local context directly into the tokenized data.
 
 
 ### Logistic Regression
@@ -59,18 +59,20 @@ LSTM (Long Short-Term Memory) networks are a type of recurrent neural network (R
 
 ## Results
 
-The performance of the models is evaluated using the following metrics: accuracy, precision, recall, and F1-score. The results indicate the strengths and weaknesses of each approach on the given dataset.
+The performance of the models is evaluated using the following metrics: 
+
+- **Accuracy**: The percentage of our predictions that are correct.
+- **Precision**: Out of all the positive predictions we made, how many were actually positive.
+- **Recall**: Out of all the positive instances in the dataset, how many did we correctly classify?
+- **F1-score**: Combines both precision and recall, providing a single score showing the balance of both. This metric ensures that the model does not neglect either of these metrics.
+
+The results indicate the strengths and weaknesses of each approach on the given dataset.
 
 ### Naive Bayes
 
-Best Parameters: {'alpha': 0.5}
-
-Best Cross-Validation Score: 0.8699999999999999
-
-Accuracy: 0.83052
-
-Precision: 0.8635923611722256
-
-Recall: 0.78504
-
-F1 Score: 0.8224447890038973
+- Best Parameters: {'alpha': 0.5}
+- Best Cross-Validation Score: 0.8699999999999999
+- Accuracy: 0.83052
+- Precision: 0.8635923611722256
+- Recall: 0.78504
+- F1 Score: 0.8224447890038973
