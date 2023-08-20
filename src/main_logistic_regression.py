@@ -52,4 +52,4 @@ print("Recall:", metrics['recall'])
 print("F1 Score:", metrics['f1_score'])
 
 # Save the model
-logistic_regression_model.save_model(model, 'logistic_regression_model.pkl')
+logistic_regression_model.save_model(model, '../models/logistic_regression_model.pkl')
