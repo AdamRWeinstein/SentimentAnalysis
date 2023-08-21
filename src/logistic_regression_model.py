@@ -26,7 +26,7 @@ def transform_text(train_texts, test_texts):
 
 # Function to build the Logistic Regression model
 def build_model():
-    model = LogisticRegression(solver='saga', max_iter=2000, n_jobs=-1, l1_ratio=.5, penalty='elasticnet')
+    model = LogisticRegression(solver='saga', max_iter=5000, n_jobs=-1, penalty='elasticnet')
     return model
 
 
@@ -61,8 +61,8 @@ def load_model(filename):
 # Function to find the best hyperparameters
 def hyperparameter_tuning(model, test_texts, test_labels):
     param_grid = {
-        'C': [0.01, 0.1, 1, 10],
-        'l1_ratio': [0, 0.2, 0.4, 0.6, 0.8, 1]
+        'C': [0.08, 0.1, 0.12],
+        'l1_ratio': [0.5, 0.6, 0.7]
     }
     print("Starting hyperparameter tuning...")
     grid_search = GridSearchCV(model, param_grid, cv=5, n_jobs=-1, verbose=10)
