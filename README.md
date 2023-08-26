@@ -102,3 +102,19 @@ The initial results were as follows:
 |                                | Test        | 0.5000   | 0.0000    | 0.0000  |
 
 Based on these results, the power of an RNN is displayed in the high accuracy, precision, and recall achieved on the training set by the stacked RNN, however the problem of overfitting must be addressed. My initial attempt to regularize the model failed, as seen in the above results. Likely, the l2 regularization was too strong, preventing the model from learning any patterns in the data and essentially reducing it to random guessing. 
+
+## Next Steps
+While experimenting with the various LSTM architectures, I made sure to save the models (including their weights) after each epoch. The most notable potential starting places for a new model to be trained with various regularization techniques was the Stacked LSTM without regularization after either epoch 6 or 12.
+
+- Epoch 6
+  - Training Accuracy: 62%
+  - Validation Accuracy: 60%
+- Epoch 12
+  - Training Accuracy: 83%
+  - Validation Accuracy: 69%
+
+While epoch 12 has a decent head start on its general understanding of the movie reviews, it has already started showing signs of overfitting. Therefore, I've decided to start testing various forms of regularization with the weights from after epoch 6 to maximize the chances of a properly balanced model. I plan on adjusting the learning rate for all future training sessions. 
+The current model updates I plan on testing:
+- Dropout of 20% — This is a common starting point for dropout regularization
+- Dropout of 50% — This will test the resilience of the model and force it to generalize across nodes (this may be better suited when combined with an increase in the number of LSTM units)
+- L1 of .0001 — This is a conservative start based on our experience with L2 regularization previously
