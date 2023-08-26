@@ -27,6 +27,14 @@ def preprocess_text(text):
     return text
 
 
+def preprocess_text_RNN(text):
+    text = remove_html(text)
+    text = expand_contractions(text)
+    text = text.lower()
+    text = remove_whitespace(text)
+    return text
+
+
 def remove_html(text):
     return re.sub('<.*?>', '', text)
 
