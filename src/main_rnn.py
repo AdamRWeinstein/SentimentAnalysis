@@ -1,7 +1,7 @@
 import os
 from sklearn.utils import shuffle
 from preprocessing import preprocess_text_RNN
-from rnn_model import create_rnn_model, create_rnn_model_stacked, create_rnn_model_stacked_regularized
+import rnn_model
 from keras.preprocessing.text import Tokenizer
 from keras.preprocessing.sequence import pad_sequences
 from keras.callbacks import ModelCheckpoint, EarlyStopping, LearningRateScheduler
@@ -58,11 +58,14 @@ test_padded = pad_sequences(test_sequences, maxlen=MAX_LENGTH, padding='post', t
 train_labels = np.array(train_labels)
 test_labels = np.array(test_labels)
 
+
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# RNN Model with a single LSTM Layer
+# RNN Model with dropout of 20%
 # Define the Learning Rate Schedule
 def lr_schedule(epoch):
     if epoch < 5:
+        return 0.05
+    elif epoch < 10:
         return 0.01
     else:
         return 0.001
@@ -70,13 +73,14 @@ def lr_schedule(epoch):
 
 # Set up the callbacks
 scheduler = LearningRateScheduler(lr_schedule)
-model_checkpoint = ModelCheckpoint('../models/single_rnn_model_epoch_{epoch:02d}.keras',
+model_checkpoint = ModelCheckpoint('../models/rnn_model_do2_epoch_{epoch:02d}.keras',
                                    save_best_only=False,
                                    save_weights_only=False)
 callbacks = [model_checkpoint, scheduler]
 
 # Instantiate and train the model
-model = create_rnn_model(MAX_WORDS, MAX_LENGTH)
+model = rnn_model.create_rnn_model_stacked_dropout(MAX_WORDS, MAX_LENGTH)
+model.load_weights('../models/stacked_rnn_model_epoch_06.keras')
 history = model.fit(train_padded, train_labels, epochs=30, batch_size=64, validation_data=(test_padded, test_labels), verbose=1, callbacks=callbacks)
 
 # Parse out the metrics
@@ -100,19 +104,20 @@ print(f"Test Accuracy: {accuracy:.4f}")
 print(f"Test Precision: {precision:.4f}")
 print(f"Test Recall: {recall:.4f}")
 
-model.save('../models/single_rnn_model.keras')
+model.save('../models/rnn_model_do2.keras')
 clear_session()
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# RNN Model with two LSTM layers
+# RNN Model with dropout of 50%
 
 # Callbacks
-model_checkpoint = ModelCheckpoint('../models/stacked_rnn_model_epoch_{epoch:02d}.keras',
+model_checkpoint = ModelCheckpoint('../models/rnn_model_do5_epoch_{epoch:02d}.keras',
                                    save_best_only=False,
                                    save_weights_only=False)
 callbacks = [model_checkpoint, scheduler]
 
 # Instantiate and train the model
-model = create_rnn_model_stacked(MAX_WORDS, MAX_LENGTH)
+model = rnn_model.create_rnn_model_stacked_high_dropout(MAX_WORDS, MAX_LENGTH)
+model.load_weights('../models/stacked_rnn_model_epoch_06.keras')
 history = model.fit(train_padded, train_labels, epochs=30, batch_size=64, validation_data=(test_padded, test_labels), verbose=1, callbacks=callbacks)
 
 # Parse out the metrics
@@ -137,18 +142,19 @@ print(f"Test Precision: {precision:.4f}")
 print(f"Test Recall: {recall:.4f}")
 
 
-model.save('../models/stacked_rnn_model.keras')
+model.save('../models/rnn_model_do5.keras')
 clear_session()
 
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ #
-# RNN Model with two LSTM layers and regularization
-model_checkpoint = ModelCheckpoint('../models/regularized_rnn_model_epoch_{epoch:02d}.keras',
+# RNN Model with l1 regularization of .0001
+model_checkpoint = ModelCheckpoint('../models/rnn_model_l1_epoch_{epoch:02d}.keras',
                                    save_best_only=False,
                                    save_weights_only=False)
 callbacks = [model_checkpoint, scheduler]
 
 # Instantiate and train the model
-model = create_rnn_model_stacked_regularized(MAX_WORDS, MAX_LENGTH)
+model = rnn_model.create_rnn_model_stacked_regularized(MAX_WORDS, MAX_LENGTH)
+model.load_weights('../models/stacked_rnn_model_epoch_06.keras')
 history = model.fit(train_padded, train_labels, epochs=30, batch_size=64, validation_data=(test_padded, test_labels), verbose=1, callbacks=callbacks)
 
 # Parse out the metrics
@@ -173,5 +179,5 @@ print(f"Test Precision: {precision:.4f}")
 print(f"Test Recall: {recall:.4f}")
 
 
-model.save('../models/regularized_rnn_model.keras')
+model.save('../models/rnn_model_l1.keras')
 clear_session()
