@@ -5,7 +5,7 @@
 This project is focused on performing sentiment analysis on a dataset of IMDb movie reviews. The goal is to classify reviews as positive or negative based on the textual content. Three different models are planned to compare their performance on this task:
 
 1. **Naive Bayes Classifier** ☑
-2. **Logistic Regression** ☐
+2. **Logistic Regression** ☑
 3. **Long Short-Term Memory Networks (LSTM)** ☐
 
 The dataset consists of 50,000 movie reviews from the IMDb website, with 25,000 in the training set and 25,000 in the test set. The data was obtained from: https://ai.stanford.edu/~amaas/data/sentiment/
@@ -67,17 +67,17 @@ The results indicate the strengths and weaknesses of each approach on the given 
 ### Naive Bayes
 
 - Best Parameters: {'alpha': 0.5}
-- Best Cross-Validation Score: 0.8699999999999999
-- Accuracy: 0.83052
-- Precision: 0.8635923611722256
-- Recall: 0.78504
-- F1 Score: 0.8224447890038973
+- Best Cross-Validation Score: 0.8700
+- Accuracy: 0.8305
+- Precision: 0.8636
+- Recall: 0.7850
+- F1 Score: 0.8224
 
 ### Logistic Regression
 
 - Best Parameters: {'C': 0.1, 'l1_ratio': 0.6}
-- Best Cross-Validation Score: 0.8917999999999999
-- Accuracy: 0.86216
-- Precision: 0.8694303900767096
-- Recall: 0.85232
-- F1 Score: 0.8607901753251999
+- Best Cross-Validation Score: 0.8918
+- Accuracy: 0.8622
+- Precision: 0.8694
+- Recall: 0.8523
+- F1 Score: 0.8608
