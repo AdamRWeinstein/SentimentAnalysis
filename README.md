@@ -15,13 +15,12 @@ The dataset consists of 50,000 movie reviews from the IMDb website, with 25,000 
 - Python 3.11
 - scikit-learn
 - NLTK
-- TensorFlow (for LSTM)
-- contractions
-- Other standard data science libraries
+- TensorFlow and Keras
+- numpy
 
 ## Preprocessing
 
-The preprocessing step involves several text cleaning and transformation tasks to prepare the data for machine learning models. The steps include:
+The preprocessing step involves several text cleaning and transformation tasks to prepare the data for machine learning models. All of the steps available include:
 
 - **Removal of HTML tags**: Ensures that the model isn't influenced by any web markup.
 - **Rating Replacement**: Specific ratings are replaced with general labels (positive, neutral, negative) to provide a uniform representation.
@@ -37,7 +36,7 @@ Potential enhancements for preprocessing include refining the rating categorizat
 
 ## Models
 
-Each model is run through a method for hyperparameter tuning to identify the best parameters for that model.
+Each shallow learning model is run through a method for hyperparameter tuning to identify the best parameters for that model. The RNN is actively being explored with different configurations and regularization options.
 
 ### Naive Bayes and Logistic Regression
 
@@ -51,7 +50,7 @@ Potential enhancements involve utilizing the `ngram_range` parameter in `CountVe
 
 ### LSTM
 
-LSTM (Long Short-Term Memory) networks are a type of recurrent neural network (RNN) capable of learning long-term dependencies, making them suitable for sequence prediction problems like text classification.
+LSTM (Long Short-Term Memory) networks are a type of recurrent neural network (RNN) capable of learning long-term dependencies, making them suitable for sequence prediction problems like text classification. They are well suited for learning long-term dependencies in data as well as processing data sequentially, which makes them better suited for NLP tasks than models like Naive Bayes and Logistic Regression due to NB's assumption of independence and Logistic Regression's inability to capture sequential dependencies in data.
 
 ## Results
 
@@ -60,14 +59,15 @@ The performance of the models is evaluated using the following metrics:
 - **Accuracy**: The percentage of our predictions that are correct.
 - **Precision**: Out of all the positive predictions we made, how many were actually positive.
 - **Recall**: Out of all the positive instances in the dataset, how many did we correctly classify?
-- **F1-score**: Combines both precision and recall, providing a single score showing the balance of both. This metric ensures that the model does not neglect either of these metrics.
+- **F1-score***: Combines both precision and recall, providing a single score showing the balance of both. This metric ensures that the model does not neglect either of these metrics.
+
+* The F1-score metric is not readily available through the Keras library so I do not capture it for the RNN models.
 
 The results indicate the strengths and weaknesses of each approach on the given dataset.
 
 ### Naive Bayes
 
 - Best Parameters: {'alpha': 0.5}
-- Best Cross-Validation Score: 0.8700
 - Accuracy: 0.8305
 - Precision: 0.8636
 - Recall: 0.7850
@@ -76,8 +76,29 @@ The results indicate the strengths and weaknesses of each approach on the given 
 ### Logistic Regression
 
 - Best Parameters: {'C': 0.1, 'l1_ratio': 0.6}
-- Best Cross-Validation Score: 0.8918
 - Accuracy: 0.8622
 - Precision: 0.8694
 - Recall: 0.8523
 - F1 Score: 0.8608
+
+### RNN
+To begin, I tested three different architectures utilizing LSTM units.
+1. An RNN with a single LSTM layer with 64 units.
+2. An RNN with stacked LSTM layers, two layers with 64 units each but has no regularization.
+3. An RNN with stacked LSTM layers, two layers with 64 units each as well as 20% dropout and an l2 regularization of .001.
+
+The initial results were as follows:
+
+| Model Type                     | Data Split  | Accuracy | Precision | Recall  |
+|--------------------------------|-------------|----------|-----------|---------|
+| Single LSTM Layer              | Training    | 0.9104   | 0.9100    | 0.9110  |
+|                                | Validation  | 0.6256   | 0.6267    | 0.6214  |
+|                                | Test        | 0.6256   | 0.6267    | 0.6214  |
+| Stacked LSTM (No Reg.)         | Training    | 0.9842   | 0.9937    | 0.9746  |
+|                                | Validation  | 0.7572   | 0.7901    | 0.7004  |
+|                                | Test        | 0.7572   | 0.7901    | 0.7004  |
+| Stacked LSTM (With Reg.)       | Training    | 0.4914   | 0.4830    | 0.2461  |
+|                                | Validation  | 0.5000   | 0.0000    | 0.0001  |
+|                                | Test        | 0.5000   | 0.0000    | 0.0000  |
+
+Based on these results, the power of an RNN is displayed in the high accuracy, precision, and recall achieved on the training set by the stacked RNN, however the problem of overfitting must be addressed. My initial attempt to regularize the model failed, as seen in the above results. Likely, the l2 regularization was too strong, preventing the model from learning any patterns in the data and essentially reducing it to random guessing. 
