@@ -5,7 +5,7 @@ from keras.models import load_model
 from rnn_model import create_rnn_model
 
 maxwords = 10000
-(x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=maxwords, skip_top=20)
+(x_train, y_train), (x_test, y_test) = imdb.load_data(num_words=maxwords)
 
 maxlen = 500  # Maximum length of the sequences
 x_train = pad_sequences(x_train, maxlen=maxlen, padding='post')
