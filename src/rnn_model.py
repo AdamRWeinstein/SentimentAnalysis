@@ -6,6 +6,8 @@ from keras.metrics import Precision, Recall
 def create_rnn_model(MAX_WORDS, MAX_LENGTH):
     model = Sequential([
         Embedding(MAX_WORDS, 50, input_length=MAX_LENGTH),
+        LSTM(64, return_sequences=True),
+        Dropout(0.3),
         LSTM(64),
         Dense(1, activation='sigmoid')
     ])
