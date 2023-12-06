@@ -6,7 +6,7 @@ This project is focused on performing sentiment analysis on a dataset of IMDb mo
 
 1. **Naive Bayes Classifier** ☑
 2. **Logistic Regression** ☑
-3. **Long Short-Term Memory Networks (LSTM)** ☐
+3. **Long Short-Term Memory Networks (LSTM)** ☑
 
 The dataset consists of 50,000 movie reviews from the IMDb website, with 25,000 in the training set and 25,000 in the test set. The data was obtained from: https://ai.stanford.edu/~amaas/data/sentiment/
 
